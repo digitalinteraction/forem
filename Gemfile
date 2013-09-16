@@ -7,8 +7,7 @@ gemspec
 gem 'pry-rails'
 gem 'pry-nav'
 gem 'cancan', git: "https://github.com/nukturnal/cancan.git"
-gem 'friendly_id', github: "FriendlyId/friendly_id"
-gem 'localeapp'
+gem 'friendly_id', '5.0.0.beta4'
 
 platforms :jruby do
   gem "activerecord-jdbc-adapter", :require => false
