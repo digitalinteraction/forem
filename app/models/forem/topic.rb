@@ -20,7 +20,7 @@ module Forem
     attr_accessor :moderation_option
 
     extend FriendlyId
-    friendly_id :subject, :use => :slugged
+    friendly_id :subject, :use => [:slugged, :finders]
 
     attr_accessible :subject, :posts_attributes
     attr_accessible :subject, :posts_attributes, :pinned, :locked, :hidden, :forum_id, :as => :admin
