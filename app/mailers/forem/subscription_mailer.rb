@@ -9,5 +9,12 @@ module Forem
 
       mail(:to => @user.email, :subject => I18n.t('forem.topic.received_reply'))
     end
+
+    def topic_created(topic_id, subscriber_id)
+      @topic = Topic.find(topic_id)
+      @user = Forem.user_class.find(subscriber_id)
+
+      mail(:to => @user.email, :subject => I18n.t('forem.topic.created_subject'))
+    end
   end
 end

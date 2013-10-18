@@ -34,6 +34,7 @@ module Forem
     before_save  :set_first_post_user
     after_save   :approve_user_and_posts, :if => :approved?
     after_create :subscribe_poster
+    after_create :send_admin_notifications
     after_create :skip_pending_review, :unless => :moderated?
 
     class << self
@@ -104,6 +105,12 @@ module Forem
     # A Topic cannot be replied to if it's locked.
     def can_be_replied_to?
       !locked?
+    end
+
+    def send_admin_notifications
+      User.with_role(:admin).where(new_forum_topic_notifications: true).each do |user|
+        Forem::SubscriptionMailer.topic_created(self.id, user.id).deliver
+      end
     end
 
     def subscribe_poster

@@ -105,6 +105,7 @@ en:
         success: The selected topic has been moderated.
         no_option_selected: No moderation option was selected.
       received_reply: A topic you have subscribed to has received a reply.
+      created_subject: A topic has been created.
       reply: Reply
       quote: Quote
       delete: Delete
