@@ -14,6 +14,8 @@ module Forem
     has_many :moderators, :through => :moderator_groups, :source => :group
     has_many :moderator_groups
 
+    has_many :subscriptions, :class_name => "Forem::ForumSubscription"
+
     validates :category, :name, :description, :presence => true
 
     alias_attribute :title, :name
@@ -40,5 +42,25 @@ module Forem
     def to_s
       name
     end
+
+    def subscribe_user(subscriber_id, force=false)
+      if subscriber_id && !subscriber?(subscriber_id)
+        subscriptions.create!(:subscriber_id => subscriber_id)
+      end
+      subscriptions_for(subscriber_id).update_all(:active => true) if force
+    end
+
+    def unsubscribe_user(subscriber_id)
+      subscriptions_for(subscriber_id).update_all(:active => false)
+    end
+
+    def subscriber?(subscriber_id)
+      subscriptions_for(subscriber_id).any?
+    end
+
+    def subscriptions_for(subscriber_id)
+      subscriptions.where(:subscriber_id => subscriber_id)
+    end
+
   end
 end
