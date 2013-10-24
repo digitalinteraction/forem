@@ -59,7 +59,7 @@ module Forem
     end
 
     def subscriptions_for(subscriber_id)
-      subscriptions.where(:subscriber_id => subscriber_id)
+      subscriptions.where(:subscriber_id => subscriber_id, :active => true)
     end
 
   end
