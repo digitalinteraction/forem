@@ -47,7 +47,7 @@ module Forem
       if subscriber_id && !(subscriptions.where(:subscriber_id => subscriber_id).any?)
         subscriptions.create!(:subscriber_id => subscriber_id)
       end
-      subscriptions_for(subscriber_id).update_all(:active => true) if force
+      subscriptions.where(:subscriber_id => subscriber_id).update_all(:active => true) if force
     end
 
     def unsubscribe_user(subscriber_id)

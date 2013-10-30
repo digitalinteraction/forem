@@ -1,6 +1,6 @@
 module Forem
   class ForumsController < Forem::ApplicationController
-    load_and_authorize_resource :class => 'Forem::Forum', :only => [:show, :subscribe, :unsubscribe]
+    load_and_authorize_resource :class => 'Forem::Forum', :only => [:show]
     helper 'forem/topics'
 
     def index
@@ -26,11 +26,15 @@ module Forem
     end
 
     def subscribe
+      @forum = Forem::Forum.find(params[:id])
+      authorize! :show, @forum
       @forum.subscribe_user(forem_user.id, true)
       subscribe_successful
     end
 
     def unsubscribe
+      @forum = Forem::Forum.find(params[:id])
+      authorize! :show, @forum
       @forum.unsubscribe_user(forem_user.id)
       unsubscribe_successful
     end
