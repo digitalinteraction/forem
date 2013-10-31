@@ -108,8 +108,8 @@ module Forem
     end
 
     def send_admin_notifications
-      User.with_role(:admin).where(new_forum_topic_notifications: true).each do |user|
-        Forem::SubscriptionMailer.topic_created(self.id, user.id).deliver
+      subscriptions.includes(:subscriber).find_each do |subscription|
+        subscription.send_notification(self.id)
       end
     end
 
