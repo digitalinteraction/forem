@@ -108,7 +108,7 @@ module Forem
     end
 
     def send_admin_notifications
-      forum.subscriptions.includes(:subscriber).find_each do |subscription|
+      forum.subscriptions.includes(:subscriber).where(:active => true).find_each do |subscription|
         subscription.send_notification(self.id)
       end
     end
